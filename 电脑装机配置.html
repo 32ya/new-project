@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年电脑主机装机配置推荐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; color: #fff; font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .subtitle { text-align: center; color: #aaa; margin-bottom: 40px; font-size: 1.1em; }
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .config-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .config-card:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(0,0,0,0.4); }
+        .card-header { padding: 20px; color: #fff; }
+        .card-header.price-1500 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .card-header.price-3000 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .card-header.price-5000 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-header.price-8000 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+        .card-header.price-15000 { background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); }
+        .card-header.custom { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        .price-tag { font-size: 2em; font-weight: bold; margin-bottom: 5px; }
+        .scenario { font-size: 0.9em; opacity: 0.9; }
+        .card-body { padding: 20px; }
+        .component-list { list-style: none; }
+        .component-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .component-list li:last-child { border-bottom: none; }
+        .component-name { color: #333; font-weight: 500; }
+        .component-value { color: #666; font-size: 0.9em; text-align: right; max-width: 60%; }
+        
+        .tips {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            color: #ccc;
+        }
+        .tips h3 { color: #fff; margin-bottom: 15px; }
+        .tips ul { list-style: none; padding-left: 0; }
+        .tips li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .tips li::before { content: "✓"; position: absolute; left: 0; color: #43e97b; }
+        .footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.9em; }
+        
+        /* 自定义配置样式 */
+        .custom-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            background: #fff;
+            cursor: pointer;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .custom-select:focus { outline: none; border-color: #667eea; }
+        .custom-card { background: #fff; }
+        .custom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            flex-direction: column;
+        }
+        .custom-row:last-child { border-bottom: none; }
+        .custom-label { font-weight: 500; color: #333; margin-bottom: 8px; }
+        
+        .total-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            text-align: center;
+            color: #fff;
+        }
+        .total-result .result-label { font-size: 1em; margin-bottom: 10px; }
+        .total-result .result-amount { font-size: 2.5em; font-weight: bold; }
+        
+        .optgroup { font-weight: bold; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖥️ 2026年电脑主机装机配置推荐</h1>
+        <p class="subtitle">各价位段高性价比配置方案 | 支持自定义配置</p>
+        
+        <div class="config-grid">
+            <!-- 1500元入门办公 -->
+            <div class="config-card">
+                <div class="card-header price-1500">
+                    <div class="price-tag">¥1,500</div>
+                    <div class="scenario">入门办公 · 网课学习</div>
+                </div>
+                <div class="card-body">
+                    <ul class="component-list">
+                        <li><span class="component-name">CPU</span><span class="component-value">AMD Athlon 3000G</span></li>
+                        <li><span class="component-name">主板</span><span class="component-value">华擎A320M-HDV R4.0</span></li>
+                        <li><span class="component-name">内存</span><span class="component-value">光威DDR4 8GB 2666MHz</span></li>
+                        <li><span class="component-name">硬盘</span><span class="component-value">金士顿A400 240GB</span></li>
+                        <li><span class="component-name">电源</span><span class="component-value">航嘉冷静王300W</span></li>
+                        <li><span class="component-name">机箱</span><span class="component-value">积至凌影商务版</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 3000元主流配置 -->
+            <div class="config-card">
+                <div class="card-header price-3000">
+                    <div class="price-tag">¥3,000</div>
+                    <div class="scenario">主流办公 · 轻度游戏</div>
+                </div>
+                <div class="card-body">
+                    <ul class="component-list">
+                        <li><span class="component-name">CPU</span><span class="component-value">Intel i3-12100F</span></li>
+                        <li><span class="component-name">主板</span><span class="component-value">微星H610M-BOMBER</span></li>
+                        <li><span class="component-name">内存</span><span class="component-value">金百达DDR4 16GB 3200</span></li>
+                        <li><span class="component-name">显卡</span><span class="component-value">影驰GTX 1650 Super 4G</span></li>
+                        <li><span class="component-name">硬盘</span><span class="component-value">铠侠RC20 500GB NVMe</span></li>
+                        <li><span class="component-name">电源</span><span class="component-value">鑫谷GP600G 500W</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 5000元游戏主机 -->
+            <div class="config-card">
+                <div class="card-header price-5000">
+                    <div class="price-tag">¥5,000</div>
+                    <div class="scenario">主流游戏 · 视频剪辑</div>
+                </div>
+                <div class="card-body">
+                    <ul class="component-list">
+                        <li><span class="component-name">CPU</span><span class="component-value">AMD R5 7500F</span></li>
+                        <li><span class="component-name">主板</span><span class="component-value">华硕PRIME B650M-K</span></li>
+                        <li><span class="component-name">内存</span><span class="component-value">金百达DDR5 16GB 5600</span></li>
+                        <li><span class="component-name">显卡</span><span class="component-value">七彩虹RTX 4060 8GB</span></li>
+                        <li><span class="component-name">硬盘</span><span class="component-value">致态TiPlus7100 1TB</span></li>
+                        <li><span class="component-name">电源</span><span class="component-value">九州风神PM650D 650W</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 8000元高端配置 -->
+            <div class="config-card">
+                <div class="card-header price-8000">
+                    <div class="price-tag">¥8,000</div>
+                    <div class="scenario">2K游戏 · 专业创作</div>
+                </div>
+                <div class="card-body">
+                    <ul class="component-list">
+                        <li><span class="component-name">CPU</span><span class="component-value">AMD R5 9600X</span></li>
+                        <li><span class="component-name">主板</span><span class="component-value">微星B650M MORTAR</span></li>
+                        <li><span class="component-name">内存</span><span class="component-value">金百达DDR5 32GB 6000</span></li>
+                        <li><span class="component-name">显卡</span><span class="component-value">七彩虹RTX 5060 Ti 16GB</span></li>
+                        <li><span class="component-name">硬盘</span><span class="component-value">三星990 Pro 1TB</span></li>
+                        <li><span class="component-name">电源</span><span class="component-value">海韵GX650W 金牌</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 15000元旗舰配置 -->
+            <div class="config-card">
+                <div class="card-header price-15000">
+                    <div class="price-tag">¥15,000</div>
+                    <div class="scenario">4K游戏 · AI创作</div>
+                </div>
+                <div class="card-body">
+                    <ul class="component-list">
+                        <li><span class="component-name">CPU</span><span class="component-value">Intel i7-14700KF</span></li>
+                        <li><span class="component-name">主板</span><span class="component-value">华硕ROG STRIX Z790-A</span></li>
+                        <li><span class="component-name">内存</span><span class="component-value">芝奇DDR5 64GB 6400</span></li>
+                        <li><span class="component-name">显卡</span><span class="component-value">七彩虹RTX 4080 Super</span></li>
+                        <li><span class="component-name">硬盘</span><span class="component-value">三星990 Pro 2TB</span></li>
+                        <li><span class="component-name">电源</span><span class="component-value">海韵PRIME TX-850W</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 自定义配置 -->
+            <div class="config-card custom-card">
+                <div class="card-header custom">
+                    <div class="price-tag">⚙️ 自定义配置</div>
+                    <div class="scenario">自由搭配 · 预算可控</div>
+                </div>
+                <div class="card-body">
+                    <div class="custom-row">
+                        <span class="custom-label">CPU（Intel）</span>
+                        <select class="custom-select" id="cpu-intel" onchange="calculateTotal()">
+                            <option value="0">请选择 Intel CPU</option>
+                            <option value="329">Intel i3-12100F (¥329)</option>
+                            <option value="399">Intel i3-13100F (¥399)</option>
+                            <option value="599">Intel i5-12400F (¥599)</option>
+                            <option value="699">Intel i5-12600KF (¥699)</option>
+                            <option value="899">Intel i5-13400F (¥899)</option>
+                            <option value="999">Intel i5-14490F (¥999)</option>
+                            <option value="1299">Intel i5-14600KF (¥1299)</option>
+                            <option value="1499">Intel i5-13600KF (¥1499)</option>
+                            <option value="1799">Intel i7-12700KF (¥1799)</option>
+                            <option value="2199">Intel i7-13700KF (¥2199)</option>
+                            <option value="2799">Intel i7-14700KF (¥2799)</option>
+                            <option value="3599">Intel i9-13900KF (¥3599)</option>
+                            <option value="4299">Intel i9-14900KF (¥4299)</option>
+                            <option value="4999">Intel Ultra 9 285K (¥4999)</option>
+                            <option value="2499">Intel Ultra 7 270K (¥2499)</option>
+                            <option value="1799">Intel Ultra 5 250KF (¥1799)</option>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">CPU（AMD）</span>
+                        <select class="custom-select" id="cpu-amd" onchange="calculateTotal()">
+                            <option value="0">请选择 AMD CPU</option>
+                            <option value="329">AMD R3 3200G (¥329)</option>
+                            <option value="559">AMD R5 5600 (¥559)</option>
+                            <option value="599">AMD R5 5600GT (¥599)</option>
+                            <option value="699">AMD R5 7500F (¥699)</option>
+                            <option value="999">AMD R5 9500F (¥999)</option>
+                            <option value="1299">AMD R5 9600X (¥1299)</option>
+                            <option value="1599">AMD R7 9700X (¥1599)</option>
+                            <option value="1899">AMD R7 8700G (¥1899)</option>
+                            <option value="2499">AMD R7 7800X3D (¥2499)</option>
+                            <option value="3299">AMD R7 9800X3D (¥3299)</option>
+                            <option value="3699">AMD R7 9850X3D (¥3699)</option>
+                            <option value="4999">AMD R9 7950X (¥4999)</option>
+                            <option value="5999">AMD R9 9800X3D (¥5999)</option>
+                            <option value="7999">AMD R9 9950X3D (¥7999)</option>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">主板（Intel平台）</span>
+                        <select class="custom-select" id="mb-intel" onchange="calculateTotal()">
+                            <option value="0">请选择 Intel 主板</option>
+                            <optgroup label="H610 入门">
+                                <option value="279">华擎H610M-HDV (¥279)</option>
+                                <option value="349">微星H610M-BOMBER (¥349)</option>
+                                <option value="399">华硕PRIME H610M-K (¥399)</option>
+                            </optgroup>
+                            <optgroup label="B760/B860 主流">
+                                <option value="499">微星PRO B760M-E (¥499)</option>
+                                <option value="599">华硕PRIME B760M-K (¥599)</option>
+                                <option value="699">七彩虹CVN B760I (¥699)</option>
+                                <option value="899">微星MAG B760M MORTAR (¥899)</option>
+                            </optgroup>
+                            <optgroup label="Z790/Z890 高端">
+                                <option value="1299">华硕PRIME Z790-A (¥1299)</option>
+                                <option value="1599">微星MPG Z790 CARBON (¥1599)</option>
+                                <option value="2499">华硕ROG STRIX Z790-A (¥2499)</option>
+                                <option value="3999">华硕ROG MAXIMUS Z890 (¥3999)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">主板（AMD平台）</span>
+                        <select class="custom-select" id="mb-amd" onchange="calculateTotal()">
+                            <option value="0">请选择 AMD 主板</option>
+                            <optgroup label="A620 入门">
+                                <option value="349">华硕PRIME A620M-K (¥349)</option>
+                                <option value="399">微星A620M-E (¥399)</option>
+                            </optgroup>
+                            <optgroup label="B650/B850 主流">
+                                <option value="499">华硕PRIME B650M-K (¥499)</option>
+                                <option value="599">微星B650M MORTAR (¥599)</option>
+                                <option value="799">华硕TUF B850M-PLUS (¥799)</option>
+                                <option value="999">七彩虹CVN B850I (¥999)</option>
+                            </optgroup>
+                            <optgroup label="X670/X870 高端">
+                                <option value="1299">华硕PRIME X670-P (¥1299)</option>
+                                <option value="1799">微星X670E CARBON (¥1799)</option>
+                                <option value="2499">华硕ROG CROSSHAIR X870E (¥2499)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">内存</span>
+                        <select class="custom-select" id="memory" onchange="calculateTotal()">
+                            <option value="0">请选择内存</option>
+                            <optgroup label="DDR4">
+                                <option value="199">光威DDR4 8GB 2666 (¥199)</option>
+                                <option value="349">光威DDR4 16GB 2666 (¥349)</option>
+                                <option value="499">金百达DDR4 16GBx2 3200 (¥499)</option>
+                                <option value="699">金百达DDR4 32GBx2 3600 (¥699)</option>
+                                <option value="899">芝奇DDR4 32GBx2 3600 (¥899)</option>
+                            </optgroup>
+                            <optgroup label="DDR5">
+                                <option value="399">光威DDR5 16GB 5600 (¥399)</option>
+                                <option value="699">金百达DDR5 16GBx2 5600 (¥699)</option>
+                                <option value="999">金百达DDR5 32GBx2 6000 (¥999)</option>
+                                <option value="1399">芝奇DDR5 32GBx2 6400 (¥1399)</option>
+                                <option value="1999">芝奇DDR5 64GBx2 6400 (¥1999)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">显卡（NVIDIA）</span>
+                        <select class="custom-select" id="gpu-nvidia" onchange="calculateTotal()">
+                            <option value="0">请选择 NVIDIA 显卡</option>
+                            <option value="999">GTX 1660 6GB (¥999)</option>
+                            <option value="1299">RTX 3060 12GB (¥1299)</option>
+                            <option value="1899">RTX 4060 8GB (¥1899)</option>
+                            <option value="2299">RTX 4060 Ti 8GB (¥2299)</option>
+                            <option value="2799">RTX 5060 8GB (¥2799)</option>
+                            <option value="3299">RTX 5060 Ti 8GB (¥3299)</option>
+                            <option value="3999">RTX 5060 Ti 16GB (¥3999)</option>
+                            <option value="4999">RTX 5070 12GB (¥4999)</option>
+                            <option value="6999">RTX 5070 Ti 16GB (¥6999)</option>
+                            <option value="9999">RTX 5080 16GB (¥9999)</option>
+                            <option value="15999">RTX 4090 24GB (¥15999)</option>
+                            <option value="19999">RTX 5090 32GB (¥19999)</option>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">显卡（AMD）</span>
+                        <select class="custom-select" id="gpu-amd" onchange="calculateTotal()">
+                            <option value="0">请选择 AMD 显卡</option>
+                            <option value="1099">RX 6600 8GB (¥1099)</option>
+                            <option value="1399">RX 6600 XT 8GB (¥1399)</option>
+                            <option value="1599">RX 6700 XT 12GB (¥1599)</option>
+                            <option value="1899">RX 7600 8GB (¥1899)</option>
+                            <option value="2999">RX 7700 XT 12GB (¥2999)</option>
+                            <option value="3499">RX 7800 XT 16GB (¥3499)</option>
+                            <option value="4499">RX 7900 XT 20GB (¥4499)</option>
+                            <option value="5499">RX 7900 XTX 24GB (¥5499)</option>
+                            <option value="3999">RX 9070 12GB (¥3999)</option>
+                            <option value="4999">RX 9070 XT 16GB (¥4999)</option>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">硬盘</span>
+                        <select class="custom-select" id="storage" onchange="calculateTotal()">
+                            <option value="0">请选择硬盘</option>
+                            <optgroup label="SATA SSD">
+                                <option value="159">240GB SSD (¥159)</option>
+                                <option value="229">480GB SSD (¥229)</option>
+                                <option value="349">1TB SSD (¥349)</option>
+                            </optgroup>
+                            <optgroup label="NVMe SSD">
+                                <option value="299">500GB NVMe (¥299)</option>
+                                <option value="449">1TB NVMe (¥449)</option>
+                                <option value="799">2TB NVMe (¥799)</option>
+                                <option value="1299">4TB NVMe (¥1299)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="custom-row">
+                        <span class="custom-label">电源</span>
+                        <select class="custom-select" id="psu" onchange="calculateTotal()">
+                            <option value="0">请选择电源</option>
+                            <optgroup label="300-400W">
+                                <option value="149">300W 铜牌 (¥149)</option>
+                                <option value="199">400W 金牌 (¥199)</option>
+                            </optgroup>
+                            <optgroup label="500-600W">
+                                <option value="249">500W 金牌 (¥249)</option>
+                                <option value="329">550W 金牌 (¥329)</option>
+                                <option value="399">650W 金牌 (¥399)</option>
+                            </optgroup>
+                            <optgroup label="750W+">
+                                <option value="499">750W 金牌 (¥499)</option>
+                                <option value="699">850W 金牌 (¥699)</option>
+                                <option value="999">1000W 金牌 (¥999)</option>
+                                <option value="1299">1200W 铂金 (¥1299)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="total-result" id="totalResult" style="display: none;">
+                        <div class="result-label">预估总价</div>
+                        <div class="result-amount" id="totalAmount">¥0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <h3>💡 装机小贴士</h3>
+            <ul>
+                <li>以上价格为参考价，实际购买时请以当日电商报价为准</li>
+                <li>建议在618、双11等大促期间购买，能省下10%-20%的预算</li>
+                <li>独立显卡方案建议选用全新卡，避免购买二手矿卡</li>
+                <li>内存和硬盘建议选择主流品牌，售后更有保障</li>
+                <li>电源不要省，选用80Plus认证的电源更稳定安全</li>
+                <li>CPU和主板要匹配（Intel平台用Intel主板，AMD平台用AMD主板）</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>数据来源：综合2026年各电商平台和媒体推荐 | 更新时间：2026年5月</p>
+        </div>
+    </div>
+    
+    <script>
+        function calculateTotal() {
+            var cpuIntel = parseInt(document.getElementById('cpu-intel').value) || 0;
+            var cpuAmd = parseInt(document.getElementById('cpu-amd').value) || 0;
+            var mbIntel = parseInt(document.getElementById('mb-intel').value) || 0;
+            var mbAmd = parseInt(document.getElementById('mb-amd').value) || 0;
+            var memory = parseInt(document.getElementById('memory').value) || 0;
+            var gpuNvidia = parseInt(document.getElementById('gpu-nvidia').value) || 0;
+            var gpuAmd = parseInt(document.getElementById('gpu-amd').value) || 0;
+            var storage = parseInt(document.getElementById('storage').value) || 0;
+            var psu = parseInt(document.getElementById('psu').value) || 0;
+            
+            // 选择CPU和主板中较贵的一个（不能同时选两个平台）
+            var cpu = Math.max(cpuIntel, cpuAmd);
+            var mb = Math.max(mbIntel, mbAmd);
+            var gpu = Math.max(gpuNvidia, gpuAmd);
+            
+            var total = cpu + mb + memory + gpu + storage + psu;
+            
+            var resultDiv = document.getElementById('totalResult');
+            var amountDiv = document.getElementById('totalAmount');
+            
+            if (total > 0) {
+                resultDiv.style.display = 'block';
+                amountDiv.textContent = '¥' + total.toLocaleString();
+            } else {
+                resultDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
