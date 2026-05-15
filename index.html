@@ -384,6 +384,14 @@
                 <button class="btn btn-danger" onclick="clearAllData()">🗑️ 清空数据</button>
                 <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importFromJSON(event)">
             </div>
+            <div class="sync-section" style="background: #f0f4ff; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: #667eea;">🔄 跨设备同步</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                    <button class="btn btn-primary btn-small" onclick="generateSyncCode()">📤 生成同步码</button>
+                    <button class="btn btn-success btn-small" onclick="importSyncCode()">📥 导入同步码</button>
+                </div>
+                <textarea id="syncCodeArea" placeholder="同步码会显示在这里，也可以粘贴别人的同步码" style="width:100%; margin-top:10px; height:80px; padding:10px; border:2px solid #ddd; border-radius:8px; font-size:12px; resize:vertical;"></textarea>
+            </div>
             <div class="table-container">
                 <table id="dataTable">
                     <thead id="tableHead">
@@ -756,6 +764,51 @@
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
             }, 2000);
+        }
+
+        // 生成同步码
+        function generateSyncCode() {
+            if (records.length === 0) {
+                showToast('⚠️ 暂无数据可同步');
+                return;
+            }
+            const data = { fields, records };
+            try {
+                const json = JSON.stringify(data);
+                const code = btoa(unescape(encodeURIComponent(json)));
+                document.getElementById('syncCodeArea').value = code;
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('✅ 同步码已复制！发给其他设备即可');
+                }).catch(() => {
+                    showToast('✅ 同步码已生成，请手动复制');
+                });
+            } catch(e) {
+                showToast('❌ 生成失败');
+            }
+        }
+
+        // 导入同步码
+        function importSyncCode() {
+            const code = document.getElementById('syncCodeArea').value.trim();
+            if (!code) {
+                showToast('⚠️ 请先粘贴同步码');
+                return;
+            }
+            try {
+                const json = decodeURIComponent(escape(atob(code)));
+                const data = JSON.parse(json);
+                if (data.fields && data.records) {
+                    fields = data.fields;
+                    records = data.records;
+                    saveToStorage();
+                    init();
+                    showToast('✅ 同步成功！');
+                } else {
+                    showToast('❌ 同步码格式错误');
+                }
+            } catch(e) {
+                showToast('❌ 同步码无效');
+            }
         }
 
         // 导入 JSON
