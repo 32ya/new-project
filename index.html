@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人员登录信息管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        /* 字段管理区域 */
+        .field-manager {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .field-manager input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .field-manager input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .field-manager select {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(56, 239, 125, 0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(235, 51, 73, 0.4);
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        
+        /* 字段标签列表 */
+        .field-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .field-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .field-tag .type {
+            color: #667eea;
+            font-weight: 600;
+        }
+        .field-tag .delete-field {
+            color: #eb3349;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .field-tag .delete-field:hover {
+            color: #c41e3a;
+        }
+        
+        /* 数据表格 */
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background: #f8f9ff;
+        }
+        td input, td select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        td input:focus, td select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* 统计信息 */
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stats-card .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stats-card .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stats-card .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .empty-state .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        /* 响应式 - 移动端优化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            .card {
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 12px;
+            }
+            .section-title {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+            .field-manager {
+                flex-direction: column;
+            }
+            .field-manager input,
+            .field-manager select {
+                min-width: 100%;
+                padding: 10px 14px;
+            }
+            .btn {
+                width: 100%;
+                padding: 12px 16px;
+            }
+            #inputForm {
+                grid-template-columns: 1fr !important;
+            }
+            th, td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+            td input, td select {
+                padding: 6px;
+                font-size: 13px;
+            }
+            .btn-small {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+            .stats-card {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+                padding: 12px 15px;
+            }
+            .stats-card .stat-number {
+                font-size: 1.2em;
+            }
+            .field-tag {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .empty-state {
+                padding: 20px;
+            }
+            .empty-state .icon {
+                font-size: 2.5em;
+            }
+            /* 操作按钮区域 */
+            .card .btn {
+                margin-bottom: 10px;
+            }
+            /* 表格横向滚动优化 */
+            .table-container {
+                margin: 0 -15px;
+                padding: 0 15px;
+            }
+        }
+        
+        /* 超小屏幕 */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+            .card {
+                padding: 12px;
+            }
+            .section-title {
+                font-size: 1em;
+            }
+            .field-tag {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+            th, td {
+                padding: 8px 6px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 人员信息管理</h1>
+        
+        <!-- 字段管理卡片 -->
+        <div class="card" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+            <div class="section-title" style="border-bottom-color: #667eea;">🏷️ 填写信息管理</div>
+            <div class="field-manager">
+                <input type="text" id="fieldName" placeholder="输入字段名称（如：姓名、工号、部门）">
+                <select id="fieldType">
+                    <option value="text">文本</option>
+                    <option value="number">数字</option>
+                    <option value="email">邮箱</option>
+                    <option value="tel">电话</option>
+                    <option value="date">日期</option>
+                    <option value="select">下拉选择</option>
+                    <option value="password">密码</option>
+                </select>
+                <input type="text" id="fieldOptions" placeholder="下拉选项（用逗号分隔）" style="display:none;">
+                <button class="btn btn-primary" onclick="addField()">➕ 添加字段</button>
+            </div>
+            <div class="field-tags" id="fieldTags">
+                <!-- 默认字段 -->
+            </div>
+        </div>
+        
+        <!-- 数据录入卡片 -->
+        <div class="card" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">
+            <div class="section-title" style="border-bottom-color: #a855f7;">📝 人员信息填写</div>
+            <div id="inputForm" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <!-- 动态生成输入框 -->
+            </div>
+            <div class="form-buttons" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <button class="btn btn-success" onclick="addRecord()">✅ 保存记录</button>
+                <button class="btn btn-danger" onclick="clearForm()">🗑️ 清空表单</button>
+            </div>
+        </div>
+        
+        <!-- 数据表格卡片 -->
+        <div class="card" style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);">
+            <div class="section-title" style="border-bottom-color: #10b981;">📊 数据列表</div>
+            <div class="btn-group" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
+                <button class="btn btn-success" onclick="exportToExcel()">📥 导出 Excel</button>
+                <button class="btn btn-primary" onclick="exportToJSON()">📥 导出 JSON</button>
+                <button class="btn btn-danger" onclick="clearAllData()">🗑️ 清空数据</button>
+            </div>
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead id="tableHead">
+                        <!-- 动态生成表头 -->
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- 动态生成表格内容 -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <div class="icon">📭</div>
+                <p>暂无数据，请添加新记录</p>
+            </div>
+        </div>
+        
+        <!-- 数据统计（底部小卡片） -->
+        <div class="stats-card">
+            <div class="stat-item">
+                <span class="stat-number" id="totalRecords">0</span>
+                <span class="stat-label">条记录</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalFields">0</span>
+                <span class="stat-label">个字段</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 数据存储
+        let fields = [
+            { name: '姓名', type: 'text', options: [] },
+            { name: '工号', type: 'text', options: [] },
+            { name: '部门', type: 'select', options: ['研发部', '产品部', '运营部', '市场部', '财务部'] },
+            { name: '邮箱', type: 'email', options: [] },
+            { name: '电话', type: 'tel', options: [] }
+        ];
+        let records = [];
+
+        // 初始化
+        function init() {
+            renderFieldTags();
+            renderInputForm();
+            renderTable();
+            updateStats();
+        }
+
+        // 显示/隐藏下拉选项输入框
+        document.getElementById('fieldType').addEventListener('change', function() {
+            document.getElementById('fieldOptions').style.display = 
+                this.value === 'select' ? 'block' : 'none';
+        });
+
+        // 添加字段
+        function addField() {
+            const name = document.getElementById('fieldName').value.trim();
+            const type = document.getElementById('fieldType').value;
+            const optionsStr = document.getElementById('fieldOptions').value.trim();
+            
+            if (!name) {
+                alert('请输入字段名称');
+                return;
+            }
+            
+            if (fields.some(f => f.name === name)) {
+                alert('该字段已存在');
+                return;
+            }
+            
+            const options = type === 'select' ? optionsStr.split(',').map(o => o.trim()).filter(o => o) : [];
+            
+            if (type === 'select' && options.length === 0) {
+                alert('下拉选择类型需要至少一个选项');
+                return;
+            }
+            
+            fields.push({ name, type, options });
+            
+            // 清空输入
+            document.getElementById('fieldName').value = '';
+            document.getElementById('fieldOptions').value = '';
+            document.getElementById('fieldOptions').style.display = 'none';
+            
+            renderFieldTags();
+            renderInputForm();
+            renderTable();
+            updateStats();
+        }
+
+        // 删除字段
+        function deleteField(index) {
+            if (confirm('确定删除该字段？相关数据也会被删除。')) {
+                fields.splice(index, 1);
+                renderFieldTags();
+                renderInputForm();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // 渲染字段标签
+        function renderFieldTags() {
+            const container = document.getElementById('fieldTags');
+            if (fields.length === 0) {
+                container.innerHTML = '<span style="color: #999;">暂无自定义字段，请添加字段</span>';
+                return;
+            }
+            
+            container.innerHTML = fields.map((field, index) => `
+                <div class="field-tag">
+                    <span>${field.name}</span>
+                    <span class="type">[${getTypeName(field.type)}]</span>
+                    <span class="delete-field" onclick="deleteField(${index})">✕</span>
+                </div>
+            `).join('');
+        }
+
+        // 获取字段类型名称
+        function getTypeName(type) {
+            const types = {
+                text: '文本',
+                number: '数字',
+                email: '邮箱',
+                tel: '电话',
+                date: '日期',
+                select: '下拉',
+                password: '密码'
+            };
+            return types[type] || type;
+        }
+
+        // 渲染输入表单
+        function renderInputForm() {
+            const container = document.getElementById('inputForm');
+            if (fields.length === 0) {
+                container.innerHTML = '<span style="color: #999;">请先添加字段</span>';
+                return;
+            }
+            
+            container.innerHTML = fields.map(field => {
+                if (field.type === 'select') {
+                    return `
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">${field.name}</label>
+                            <select id="input_${field.name}" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                <option value="">请选择</option>
+                                ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                }
+                return `
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">${field.name}</label>
+                        <input type="${field.type}" id="input_${field.name}" placeholder="请输入${field.name}" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 添加记录
+        function addRecord() {
+            const record = {};
+            let valid = true;
+            
+            fields.forEach(field => {
+                const value = document.getElementById(`input_${field.name}`).value.trim();
+                record[field.name] = value;
+                if (!value) valid = false;
+            });
+            
+            if (!valid) {
+                alert('请填写所有字段');
+                return;
+            }
+            
+            record.id = Date.now();
+            records.push(record);
+            
+            // 保存到 localStorage
+            saveToStorage();
+            
+            // 清空表单
+            clearForm();
+            
+            // 渲染表格
+            renderTable();
+            updateStats();
+            
+            alert('记录添加成功！');
+        }
+
+        // 清空表单
+        function clearForm() {
+            fields.forEach(field => {
+                const input = document.getElementById(`input_${field.name}`);
+                if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = '';
+                }
+            });
+        }
+
+        // 渲染表格
+        function renderTable() {
+            const thead = document.getElementById('tableHead');
+            const tbody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            // 表头
+            thead.innerHTML = `
+                <tr>
+                    <th style="width: 50px;">#</th>
+                    ${fields.map(f => `<th>${f.name}</th>`).join('')}
+                    <th style="width: 100px;">操作</th>
+                </tr>
+            `;
+            
+            // 表格内容
+            if (records.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                document.getElementById('dataTable').style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                document.getElementById('dataTable').style.display = 'table';
+                
+                tbody.innerHTML = records.map((record, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        ${fields.map(field => `
+                            <td>
+                                ${field.type === 'select' ? 
+                                    `<select onchange="updateRecord(${record.id}, '${field.name}', this.value)" style="padding: 6px;">
+                                        ${field.options.map(opt => `<option value="${opt}" ${record[field.name] === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+                                    </select>` :
+                                    `<input type="${field.type}" value="${record[field.name] || ''}" onchange="updateRecord(${record.id}, '${field.name}', this.value)">`
+                                }
+                            </td>
+                        `).join('')}
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn btn-danger btn-small" onclick="deleteRecord(${record.id})">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // 更新记录
+        function updateRecord(id, fieldName, value) {
+            const record = records.find(r => r.id === id);
+            if (record) {
+                record[fieldName] = value;
+                saveToStorage();
+            }
+        }
+
+        // 删除记录
+        function deleteRecord(id) {
+            if (confirm('确定删除该记录？')) {
+                records = records.filter(r => r.id !== id);
+                saveToStorage();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // 清空所有数据
+        function clearAllData() {
+            if (confirm('确定清空所有数据？此操作不可恢复！')) {
+                records = [];
+                saveToStorage();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // 更新统计
+        function updateStats() {
+            document.getElementById('totalRecords').textContent = records.length;
+            document.getElementById('totalFields').textContent = fields.length;
+        }
+
+        // 保存到 localStorage
+        function saveToStorage() {
+            localStorage.setItem('personnelFields', JSON.stringify(fields));
+            localStorage.setItem('personnelRecords', JSON.stringify(records));
+        }
+
+        // 从 localStorage 加载
+        function loadFromStorage() {
+            const savedFields = localStorage.getItem('personnelFields');
+            const savedRecords = localStorage.getItem('personnelRecords');
+            
+            if (savedFields) {
+                fields = JSON.parse(savedFields);
+            }
+            if (savedRecords) {
+                records = JSON.parse(savedRecords);
+            }
+        }
+
+        // 导出为 CSV (Excel 兼容)
+        function exportToExcel() {
+            if (records.length === 0) {
+                alert('暂无数据可导出');
+                return;
+            }
+            
+            // BOM for Excel UTF-8
+            let csv = '\uFEFF';
+            
+            // 表头
+            csv += fields.map(f => `"${f.name}"`).join(',') + '\n';
+            
+            // 数据
+            records.forEach(record => {
+                csv += fields.map(field => `"${record[field.name] || ''}"`).join(',') + '\n';
+            });
+            
+            // 下载
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `人员登录信息_${new Date().toLocaleDateString()}.csv`;
+            link.click();
+        }
+
+        // 导出为 JSON
+        function exportToJSON() {
+            if (records.length === 0) {
+                alert('暂无数据可导出');
+                return;
+            }
+            
+            const data = {
+                fields: fields,
+                records: records,
+                exportTime: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `人员登录信息_${new Date().toLocaleDateString()}.json`;
+            link.click();
+        }
+
+        // 页面加载时初始化
+        loadFromStorage();
+        init();
+    </script>
+</body>
+</html>
