@@ -209,6 +209,25 @@
             font-size: 0.9em;
         }
         
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        
         /* 空状态 */
         .empty-state {
             text-align: center;
@@ -361,7 +380,9 @@
             <div class="btn-group" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
                 <button class="btn btn-success" onclick="exportToExcel()">📥 导出 Excel</button>
                 <button class="btn btn-primary" onclick="exportToJSON()">📥 导出 JSON</button>
+                <button class="btn btn-warning" onclick="document.getElementById('importFile').click()">📤 导入 JSON</button>
                 <button class="btn btn-danger" onclick="clearAllData()">🗑️ 清空数据</button>
+                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importFromJSON(event)">
             </div>
             <div class="table-container">
                 <table id="dataTable">
@@ -553,7 +574,7 @@
             renderTable();
             updateStats();
             
-            alert('记录添加成功！');
+            showToast('✅ 保存成功！');
         }
 
         // 清空表单
@@ -650,16 +671,25 @@
             document.getElementById('totalFields').textContent = fields.length;
         }
 
-        // 保存到 localStorage
+        // 保存到 localStorage + sessionStorage 双保险
         function saveToStorage() {
-            localStorage.setItem('personnelFields', JSON.stringify(fields));
-            localStorage.setItem('personnelRecords', JSON.stringify(records));
+            try {
+                localStorage.setItem('personnelFields', JSON.stringify(fields));
+                localStorage.setItem('personnelRecords', JSON.stringify(records));
+            } catch(e) {}
+            try {
+                sessionStorage.setItem('personnelFields', JSON.stringify(fields));
+                sessionStorage.setItem('personnelRecords', JSON.stringify(records));
+            } catch(e) {}
         }
 
-        // 从 localStorage 加载
+        // 从 localStorage 或 sessionStorage 加载
         function loadFromStorage() {
-            const savedFields = localStorage.getItem('personnelFields');
-            const savedRecords = localStorage.getItem('personnelRecords');
+            let savedFields = localStorage.getItem('personnelFields');
+            let savedRecords = localStorage.getItem('personnelRecords');
+            // localStorage 没有则尝试 sessionStorage
+            if (!savedFields) savedFields = sessionStorage.getItem('personnelFields');
+            if (!savedRecords) savedRecords = sessionStorage.getItem('personnelRecords');
             
             if (savedFields) {
                 fields = JSON.parse(savedFields);
@@ -713,6 +743,44 @@
             link.href = URL.createObjectURL(blob);
             link.download = `人员登录信息_${new Date().toLocaleDateString()}.json`;
             link.click();
+        }
+
+        // Toast 提示
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // 导入 JSON
+        function importFromJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.fields && data.records) {
+                        fields = data.fields;
+                        records = data.records;
+                        saveToStorage();
+                        init();
+                        showToast('✅ 导入成功！');
+                    } else {
+                        alert('文件格式不正确');
+                    }
+                } catch (err) {
+                    alert('文件解析失败：' + err.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
         }
 
         // 页面加载时初始化
